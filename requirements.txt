@@ -2,8 +2,6 @@ alembic==1.8.1
 aiosqlite==0.17.0
 asyncpg==0.26.0
 fastapi==0.82.0
-fastapi-users[sqlalchemy2]==10.1.5
-fastapi-users-db-sqlalchemy==4.0.3
 uvicorn[standard]==0.18.3
 watchgod==0.8.2
 sqlalchemy==1.4.41
