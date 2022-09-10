@@ -5,6 +5,7 @@ from pydantic import BaseSettings
 
 import constants
 
+
 class Settings(BaseSettings):
     app_title: str = 'KapkandexDisk'
     app_description: str = 'Service for remote file storage'
