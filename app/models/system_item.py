@@ -9,6 +9,7 @@ from app.models import SystemItemBase
 class SystemItem(SystemItemBase):
     __tableargs__ = (
         CheckConstraint('id != parent_id', 'id_not_parent_id'),
+        CheckConstraint('size > 0', 'size_must_be_positive')
     )
 
     id = Column(String, primary_key=True)
