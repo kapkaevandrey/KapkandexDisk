@@ -47,6 +47,10 @@ class SystemItemRead(SystemItemBase):
         }
 
 
+class SystemItemUpdate(SystemItemCreate):
+    ...
+
+
 class SystemItemFullRead(SystemItemRead):
     children: Optional[List[SystemItemFullRead]]
 
