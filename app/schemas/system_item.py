@@ -26,14 +26,19 @@ class SystemItemBase(BaseModel):
 
 
 class SystemItemCreate(SystemItemBase):
-    @root_validator
+    @root_validator(skip_on_failure=True)
     def check_fields_is_none_when_type_folder(cls, values):
         is_folder = values['type'] == SystemItemType.FOLDER.value
+        is_file = values['type'] == SystemItemType.FILE.value
         for field_name in ['url', 'size']:
             if is_folder and values[field_name] is not None:
                 raise ValueError(
                     f'field {field_name} most be None for file type - '
                     f'{SystemItemType.FOLDER.value}')
+            if is_file and values[field_name] is None:
+                raise ValueError(
+                    f'field {field_name} cant be None for file type - '
+                    f'{SystemItemType.FILE.value}')
         return values
 
 
