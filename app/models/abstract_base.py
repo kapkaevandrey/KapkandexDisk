@@ -38,3 +38,7 @@ class SystemItemBase(Base):
                 f'{self.type}'
             )
         return size
+
+    @property
+    def is_file(self) -> bool:
+        return self.type == SystemItemType.FILE
