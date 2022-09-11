@@ -5,6 +5,7 @@ from http import HTTPStatus
 from typing import Any, List
 
 from fastapi import HTTPException
+from fastapi.exceptions import RequestValidationError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud.base import BaseCRUD, ModelType
@@ -34,16 +35,10 @@ def parse_and_check_date(date: str) -> datetime:
     try:
         date = parser.isoparse(date)
     except ValueError:
-        raise HTTPException(
-            status_code=HTTPStatus.BAD_REQUEST,
-            detail='Invalid date format'
-        )
+        raise RequestValidationError('Invalid date format')
     if date > datetime.now(tz.tzutc()):
-        raise HTTPException(
-            status_code=HTTPStatus.BAD_REQUEST,
-            detail=(
-                f'date in UTC cant be larger then '
-                f'{datetime.now(tz.tzutc())}'
-            )
+        raise RequestValidationError(
+            f'date in UTC cant be larger then '
+            f'{datetime.now(tz.tzutc())}'
         )
     return date
