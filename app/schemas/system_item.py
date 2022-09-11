@@ -1,5 +1,6 @@
 from __future__ import annotations
 from datetime import datetime
+from dateutil import tz
 import re
 from typing import Optional, List
 
@@ -9,6 +10,7 @@ from pydantic import (
 
 from app.models import SystemItemType
 from app.core.constants import DATE_ISO_ZULU_FORMAT_TEMPLATE
+from app.utils.convert_date_to_utc_zulu import convert_datetime_to_utc
 
 
 class SystemItemBase(BaseModel):
@@ -41,9 +43,7 @@ class SystemItemRead(SystemItemBase):
     class Config:
         orm_mode = True
         json_encoders = {
-            datetime: lambda v: v.replace(tzinfo=None).isoformat(
-                timespec='milliseconds'
-            ) + 'Z',
+            datetime: convert_datetime_to_utc
         }
 
 
