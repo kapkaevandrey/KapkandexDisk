@@ -20,25 +20,6 @@ class SystemItemBase(Base):
     type = Column(Enum(SystemItemType), nullable=False)
     size = Column(Integer)
 
-    @validates('url')
-    def validate_url(self, key, url):
-        if self.type == SystemItemType.FOLDER.value and url is not None:
-            raise ValueError(
-                f'the url field must be None with a value of the Folder type '
-                f'{self.type}'
-            )
-        # need add check regex url-string
-        return url
-
-    @validates('size')
-    def validate_url(self, key, size):
-        if self.type == SystemItemType.FOLDER.value and size is not None:
-            raise ValueError(
-                f'the url field must be None with a value of the Folder type '
-                f'{self.type}'
-            )
-        return size
-
     @property
     def is_file(self) -> bool:
         return self.type == SystemItemType.FILE
