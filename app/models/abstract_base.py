@@ -23,3 +23,7 @@ class SystemItemBase(Base):
     @property
     def is_file(self) -> bool:
         return self.type == SystemItemType.FILE
+
+    @property
+    def is_folder(self) -> bool:
+        return self.type == SystemItemType.FOLDER
