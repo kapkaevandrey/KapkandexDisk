@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 from fastapi import APIRouter, Depends, Query
+from fastapi.exceptions import RequestValidationError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.validators import (
@@ -10,8 +11,8 @@ from app.core.db import get_async_session
 from app.core.constants import DATE_ISO_ZULU_FORMAT_REGEX
 from app.crud import system_item_crud
 from app.schemas.system_item import SystemItemListCreate, SystemItemFullRead
-from app.utils.update_create_objects import update_parents_size
-from app.utils.get_response import create_nested_response
+from app.utils.update_create_items import update_single_parent_size
+from app.utils.get_item_response import create_nested_response
 
 router = APIRouter()
 
@@ -46,10 +47,12 @@ async def delete_folder_or_file(
         attr_name='id', attr_value=id,
         session=session
     )
+    if date < item.date:
+        raise RequestValidationError('Invalid date format')
     removed_item = await system_item_crud.remove(item, session)
-    if item.parent_id is not None:
-        await update_parents_size(
-            parents_ids=[item.parent_id],
+    if removed_item.parent_id is not None:
+        await update_single_parent_size(
+            parent_id=removed_item.parent_id,
             date=date,
             session=session,
             commit=True
