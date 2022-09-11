@@ -8,7 +8,7 @@ from pydantic import (
 )
 
 from app.models import SystemItemType
-from app.core.constants import DATE_ISO_ZULU_FORMAT_TEMPLATE, DATE_ISO_ZULU_FORMAT_REGEX
+from app.core.constants import DATE_ISO_ZULU_FORMAT_TEMPLATE
 
 
 class SystemItemBase(BaseModel):

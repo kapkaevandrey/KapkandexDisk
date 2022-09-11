@@ -1,4 +1,3 @@
-from dateutil import parser
 from http import HTTPStatus
 
 from fastapi import APIRouter, Depends, Query
@@ -10,7 +9,7 @@ from app.api.validators import (
 from app.core.db import get_async_session
 from app.core.constants import DATE_ISO_ZULU_FORMAT_REGEX
 from app.crud import system_item_crud
-from app.schemas.system_item import SystemItemListCreate
+from app.schemas.system_item import SystemItemListCreate, SystemItemFullRead
 from app.utils.update_create_objects import update_parents_size
 from app.utils.get_response import create_nested_response
 
@@ -23,7 +22,7 @@ router = APIRouter()
 async def import_folders_and_files(
         items_data: SystemItemListCreate,
         session: AsyncSession = Depends(get_async_session),
-):
+) -> None:
 
     return {'Hello': 'FastAPI'}
 
@@ -57,7 +56,9 @@ async def delete_folder_or_file(
         )
 
 @router.get(
-    '/nodes/{id}', status_code=HTTPStatus.OK,
+    '/nodes/{id}',
+    status_code=HTTPStatus.OK,
+    response_model=SystemItemFullRead
 )
 async def get_item(
         id: str,
