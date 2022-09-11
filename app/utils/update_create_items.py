@@ -9,6 +9,7 @@ from app.schemas.system_item import SystemItemListCreate
 from app.models import SystemItem
 from app.api.validators import try_get_object_by_attribute
 
+
 async def update_or_create_items_form_package(
         session: AsyncSession,
         items_data: SystemItemListCreate
@@ -28,7 +29,6 @@ async def update_single_parent_size(
         attr_name='id', attr_value=parent_id,
         session=session
     )
-    counter = 0
     updated_parents = []
     while current_parent is not None:
         result = await session.execute(
