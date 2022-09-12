@@ -45,7 +45,7 @@ async def delete_folder_or_file(
             example='2020-12-31T21:00:00.223Z'
         ),
         session: AsyncSession = Depends(get_async_session),
-):
+) -> None:
     date = parse_and_check_date(date)
     item = await try_get_object_by_attribute(
         system_item_crud,
@@ -71,73 +71,9 @@ async def delete_folder_or_file(
 async def get_item(
         id: str,
         session: AsyncSession = Depends(get_async_session),
-):
+) -> SystemItemFullRead:
     item = await try_get_object_by_attribute(
         system_item_crud,
         attr_name='id', attr_value=id, session=session
     )
     return await create_nested_response(session, item)
-
-
-@router.get(
-    '/updates',
-    status_code=HTTPStatus.OK,
-    response_model=List[SystemItemRead],
-    deprecated=True
-)
-async def get_items_change_statistic(
-        date: str = Query(
-            regex=DATE_ISO_ZULU_FORMAT_REGEX,
-            title='Date in ISO format',
-            description='Date in ISO format',
-            example='2020-12-31T21:00:00.223Z'
-        ),
-        session: AsyncSession = Depends(get_async_session)
-):
-    return None
-
-
-@router.get(
-    '/updates',
-    status_code=HTTPStatus.OK,
-    response_model=List[SystemItemRead],
-    deprecated=True
-)
-async def get_items_change_statistic(
-        date: str = Query(
-            regex=DATE_ISO_ZULU_FORMAT_REGEX,
-            title='Date in ISO format',
-            description='Date in ISO format',
-            example='2020-12-31T21:00:00.223Z'
-        ),
-        session: AsyncSession = Depends(get_async_session)
-):
-    return None
-
-
-@router.get(
-    '/node/{id}/history',
-    status_code=HTTPStatus.OK,
-    deprecated=True
-)
-async def get_history_item_change(
-        id: str,
-        date_start: Optional[str] = Query(
-            None,
-            regex=DATE_ISO_ZULU_FORMAT_REGEX,
-            title='Date in ISO format',
-            description='Date in ISO format',
-            example='2020-12-31T21:00:00.223Z',
-            alias='dateStart'
-        ),
-        date_end: Optional[str] = Query(
-            None,
-            regex=DATE_ISO_ZULU_FORMAT_REGEX,
-            title='Date in ISO format',
-            description='Date in ISO format',
-            example='2020-12-31T21:00:00.223Z',
-            alias='dateStart'
-        ),
-        session: AsyncSession = Depends(get_async_session)
-):
-    return None
