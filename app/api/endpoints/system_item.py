@@ -1,13 +1,13 @@
 from http import HTTPStatus
-from typing import List, Optional
 
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.validators import (
-    try_get_object_by_attribute, parse_and_check_date,
-    check_items_package_unique_id, check_date_is_valid
+from app.validators.item import (
+    try_get_object_by_attribute, check_items_package_unique_id,
+    check_parent_id_in_package,
 )
+from app.validators.date import check_date_is_valid, parse_and_check_date
 from app.core.db import get_async_session
 from app.core.constants import DATE_ISO_ZULU_FORMAT_REGEX
 from app.crud import system_item_crud
@@ -29,6 +29,8 @@ async def import_folders_and_files(
 ) -> None:
     check_items_package_unique_id(items_data.items)
     check_date_is_valid(items_data.date)
+    await check_parent_id_in_package(items_data.items, session)
+
 
     return {'Hello': 'FastAPI'}
 

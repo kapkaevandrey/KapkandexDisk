@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.crud import system_item_crud
 from app.schemas.system_item import SystemItemListCreate
 from app.models import SystemItem
-from app.api.validators import try_get_object_by_attribute
+from app.validators.item import try_get_object_by_attribute
 
 
 async def update_or_create_items_form_package(

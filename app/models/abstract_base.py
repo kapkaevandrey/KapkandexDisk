@@ -1,9 +1,8 @@
 import enum
 
 from sqlalchemy import (
-    Column, DateTime, String, Enum, Integer
+    Column, String, Enum, Integer
 )
-from sqlalchemy.orm import validates
 
 from app.core.db import Base
 

@@ -1,6 +1,5 @@
 from __future__ import annotations
 from datetime import datetime
-from dateutil import tz
 import re
 from typing import Optional, List
 
@@ -39,6 +38,14 @@ class SystemItemCreate(SystemItemBase):
                 raise ValueError(
                     f'field {field_name} cant be None for file type - '
                     f'{SystemItemType.FILE.value}')
+        return values
+
+    @root_validator(skip_on_failure=True)
+    def check_id_not_equal_aprent_id(cls, values):
+        if values['id'] == values['parent_id']:
+            raise ValueError(
+                f'Filed id cant be equal parent_id'
+            )
         return values
 
 

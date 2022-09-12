@@ -4,7 +4,7 @@ from dateutil import tz
 
 def convert_datetime_to_utc(
         date: datetime,
-        timespec='milliseconds'
+        timespec='seconds'
 ) -> str:
     """
     Convert
@@ -13,7 +13,7 @@ def convert_datetime_to_utc(
     :return str (format like UTC time ISO8601)
     """
     utc_date = date.astimezone(tz.tzutc())
-    date_str_with_tz = utc_date.isoformat(timespec='milliseconds')
+    date_str_with_tz = utc_date.isoformat(timespec=timespec)
     return date_str_with_tz[:-6] + 'Z'
 
 
