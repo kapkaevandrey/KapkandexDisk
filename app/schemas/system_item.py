@@ -9,7 +9,7 @@ from pydantic import (
 
 from app.models import SystemItemType
 from app.core.constants import DATE_ISO_ZULU_FORMAT_TEMPLATE
-from app.utils.convert_date_to_utc_zulu import convert_datetime_to_utc
+from app.utils.convertors import convert_datetime_to_utc
 
 
 class SystemItemBase(BaseModel):

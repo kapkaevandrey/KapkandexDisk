@@ -14,8 +14,9 @@ from app.crud import system_item_crud
 from app.schemas.system_item import (
     SystemItemListCreate, SystemItemFullRead, SystemItemRead
 )
-from app.utils.update_create_items import update_single_parent_size
-from app.utils.get_item_response import create_nested_response
+from app.utils.update_create_process import update_single_parent_size
+from app.utils.get_response import create_nested_response
+from app.utils.update_create_process import create_update_items_process
 
 router = APIRouter()
 
@@ -30,9 +31,9 @@ async def import_folders_and_files(
     check_items_package_unique_id(items_data.items)
     check_date_is_valid(items_data.date)
     await check_parent_id_in_package(items_data.items, session)
-
-
-    return {'Hello': 'FastAPI'}
+    await create_update_items_process(
+        items_data=items_data, session=session
+    )
 
 
 @router.delete(
@@ -44,7 +45,7 @@ async def delete_folder_or_file(
             regex=DATE_ISO_ZULU_FORMAT_REGEX,
             title='Date in ISO format',
             description='Date in ISO format',
-            example='2020-12-31T21:00:00.223Z'
+            example='2020-12-31T21:00:00Z'
         ),
         session: AsyncSession = Depends(get_async_session),
 ) -> None:
