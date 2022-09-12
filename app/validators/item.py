@@ -51,21 +51,11 @@ def check_type_unchanged(
         raise RequestValidationError('You cannot change type of Item')
 
 
-def check_size_folder_unchanged(
-        item: SystemItemCreate, item_obj: SystemItem
-) -> None:
-    if item.size != item_obj.size:
-        raise RequestValidationError(
-            f'You cannot change item size with type '
-            f'{SystemItemType.FOLDER.value}'
-        )
-
-
 async def check_parent_id_in_package(
         items: List[SystemItemCreate], session: AsyncSession
 ) -> None:
     parents_approved = set()
-    for item in items:
+    for item in sorted(items, key=lambda x: x.type, reverse=True):
         if (item.parent_id is not None
                 and item.parent_id not in parents_approved
         ):
