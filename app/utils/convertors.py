@@ -15,5 +15,3 @@ def convert_datetime_to_utc(
     utc_date = date.astimezone(tz.tzutc())
     date_str_with_tz = utc_date.isoformat(timespec=timespec)
     return date_str_with_tz[:-6] + 'Z'
-
-

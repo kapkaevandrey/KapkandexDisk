@@ -1,6 +1,5 @@
-from collections import defaultdict
 from datetime import datetime
-from typing import List, Tuple, Optional
+from typing import List
 
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -36,9 +35,9 @@ async def create_update_items_process(
                 get_parent_item_id_need_update(item, item_obj)
             )
             if (
-                    item_obj.is_file
-                    and item.parent_id is not None
-                    and item.size != item_obj.size
+                    item_obj.is_file and
+                    item.parent_id is not None and
+                    item.size != item_obj.size
             ):
                 need_update_ids.add(item.parent_id)
             item_obj = await system_item_crud.update(
@@ -56,9 +55,8 @@ def get_parent_item_id_need_update(
         item: SystemItemCreate,
         item_obj: SystemItem
 ) -> set:
-    need_update = set()
     if item.parent_id == item_obj.parent_id:
-        return need_update
+        return set()
     return set(
         val for val in (item.parent_id, item_obj.parent_id)
         if val is not None
@@ -96,8 +94,8 @@ async def update_single_parent_size(
         checked_id.add(current_parent.id)
         updated_parents.append(current_parent)
         if (
-                current_parent.parent_id is None
-                or current_parent.parent_id in checked_id
+                current_parent.parent_id is None or
+                current_parent.parent_id in checked_id
         ):
             current_parent = None
         else:

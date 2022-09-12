@@ -12,7 +12,7 @@ from app.core.db import get_async_session
 from app.core.constants import DATE_ISO_ZULU_FORMAT_REGEX
 from app.crud import system_item_crud
 from app.schemas.system_item import (
-    SystemItemListCreate, SystemItemFullRead, SystemItemRead
+    SystemItemListCreate, SystemItemFullRead
 )
 from app.utils.update_create_process import update_single_parent_size
 from app.utils.get_response import create_nested_response

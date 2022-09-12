@@ -44,7 +44,7 @@ class SystemItemCreate(SystemItemBase):
     def check_id_not_equal_aprent_id(cls, values):
         if values['id'] == values['parent_id']:
             raise ValueError(
-                f'Filed id cant be equal parent_id'
+                'Filed id cant be equal parent_id'
             )
         return values
 

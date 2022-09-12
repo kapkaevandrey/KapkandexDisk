@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
 from fastapi import FastAPI
-from fastapi.exceptions import ValidationError, HTTPException, RequestValidationError
+from fastapi.exceptions import HTTPException, RequestValidationError
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 

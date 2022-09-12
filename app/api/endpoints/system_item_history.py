@@ -1,12 +1,11 @@
 from http import HTTPStatus
-from typing import List, Optional
+from typing import Optional
 
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.db import get_async_session
 from app.core.constants import DATE_ISO_ZULU_FORMAT_REGEX
-from app.schemas.system_item import SystemItemRead
 
 
 router = APIRouter()

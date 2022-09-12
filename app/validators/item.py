@@ -56,8 +56,9 @@ async def check_parent_id_in_package(
 ) -> None:
     parents_approved = set()
     for item in sorted(items, key=lambda x: x.type, reverse=True):
-        if (item.parent_id is not None
-                and item.parent_id not in parents_approved
+        if (
+                item.parent_id is not None and
+                item.parent_id not in parents_approved
         ):
             parent = await system_item_crud.get(
                 pk=item.parent_id, session=session
@@ -74,4 +75,3 @@ async def check_parent_id_in_package(
             parents_approved.add(item.parent_id)
         if item.type == SystemItemType.FOLDER:
             parents_approved.add(item.id)
-
