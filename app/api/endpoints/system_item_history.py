@@ -15,7 +15,6 @@ router = APIRouter()
 @router.get(
     '/updates',
     status_code=HTTPStatus.OK,
-    response_model=List[SystemItemRead],
     deprecated=True
 )
 async def get_items_change_statistic(
