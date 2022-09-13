@@ -67,10 +67,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     steps:
+      - uses: actions/checkout@v3
       - name: Install OPen VPN
         run: | 
           sudo apt-get install openvpn
-          echo "${{ secrets.FILE_OVPN }}" >> .github/vpn/config.ovpn
+          echo "${{ secrets.FILE_OVPN }}" > .github/vpn/config.ovpn
       - name: Connect VPN
         uses: golfzaptw/action-connect-ovpn@master
         id: connect_vpn
