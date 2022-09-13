@@ -96,7 +96,7 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "docker-compose.yml"
-          target: .
+          target: '~'
 
       - name: executing remote ssh commands to deploy app
         uses: appleboy/ssh-action@master
