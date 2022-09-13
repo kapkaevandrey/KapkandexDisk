@@ -70,7 +70,7 @@ jobs:
       - name: Install OPen VPN
         run: | 
           sudo apt-get install openvpn
-          echo "${{ secrets.FILE_OVPN }}" > .github/vpn/config.ovpn
+          echo "${{ secrets.FILE_OVPN }}" >> .github/vpn/config.ovpn
       - name: Connect VPN
         uses: golfzaptw/action-connect-ovpn@master
         id: connect_vpn
