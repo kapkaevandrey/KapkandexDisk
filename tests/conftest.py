@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 import pytest_asyncio
 from fastapi.testclient import TestClient
@@ -18,8 +20,13 @@ except (NameError, ImportError):
         'Dont find application "app"`.',
     )
 
+BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
-SQLALCHEMY_DATABASE_URL = 'sqlite+aiosqlite:///./test.db'
+pytest_plugins = ('fixtures',)
+
+
+TEST_DB = BASE_DIR / 'test.db'
+SQLALCHEMY_DATABASE_URL = f'sqlite+aiosqlite:///{TEST_DB}'
 
 
 engine = create_async_engine(
