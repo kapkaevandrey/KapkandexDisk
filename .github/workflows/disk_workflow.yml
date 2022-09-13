@@ -68,12 +68,16 @@ jobs:
     needs: build_and_push_to_docker_hub
     steps:
       - name: Install OPen VPN
-        run: sudo apt-get install openvpn
+        run: | 
+          sudo apt-get install openvpn
+          sudo touch config.ovpn
+          echo "${{ secrets.FILE_OVPN }}" > config.ovpn
       - name: Connect VPN
         uses: golfzaptw/action-connect-ovpn@master
         id: connect_vpn
         with:
           PING_URL: ${{ secrets.SERVER_HOST }}
+          FILE_OVPN: 'config.ovpn'
         env:
           CA_CRT: ${{ secrets.CA_CRT }}
           USER_CRT: ${{ secrets.USER_CRT }}
