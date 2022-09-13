@@ -16,15 +16,15 @@ jobs:
         python-version: ["3.9", "3.10"]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: "3.10"
 
     - name: Cache Poetry
       id: cache-poetry
-      uses: action/cache@2.1.5
+      uses: action/cache@3
       with:
         path: ~/.poetry
 
@@ -36,7 +36,7 @@ jobs:
     - name: Test with flake8
       run: |
         python -m flake8
-        python -m pytest
+        python pytest
         
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
