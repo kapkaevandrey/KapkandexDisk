@@ -2,7 +2,6 @@ import re
 import datetime as dt
 
 
-DATE_ISO_FORMAT = '%Y-'
 DATE_ISO_ZULU_FORMAT_REGEX = (
     r'\d{4}-(0[1-9]|1[0-2])'
     r'-(0[1-9]|1[0-9]|2[0-9]|3[0-1])'

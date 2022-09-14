@@ -13,6 +13,10 @@ from app.utils.convertors import convert_datetime_to_utc
 
 
 class SystemItemBase(BaseModel):
+    """
+    The basic scheme for describing and working with
+    an object of the file or folder type
+    """
     id: str = Field()
     url: Optional[str] = Field(max_length=255)
     parent_id: Optional[str] = Field(alias='parentId')
@@ -25,6 +29,10 @@ class SystemItemBase(BaseModel):
 
 
 class SystemItemCreate(SystemItemBase):
+    """
+    A schema designed for processing and validating
+    objects that require creation or updating
+    """
     @root_validator(skip_on_failure=True)
     def check_fields_is_none_when_type_folder(cls, values):
         is_folder = values['type'] == SystemItemType.FOLDER.value
@@ -50,6 +58,10 @@ class SystemItemCreate(SystemItemBase):
 
 
 class SystemItemRead(SystemItemBase):
+    """
+    The schema for representing a system object in its
+    current state is read-only
+    """
     date: datetime
 
     class Config:
@@ -60,14 +72,25 @@ class SystemItemRead(SystemItemBase):
 
 
 class SystemItemUpdate(SystemItemCreate):
+    """
+    The schema intended for updating the object
+    is used together with the BaceCRUD object
+    """
     ...
 
 
 class SystemItemFullRead(SystemItemRead):
+    """
+    A schema for representing objects with
+    unlimited nesting of child objects that can use the same schema
+    """
     children: Optional[List[SystemItemFullRead]]
 
 
 class SystemItemListCreate(BaseModel):
+    """
+    Scheme for validation and deserialization of a data package
+    """
     items: List[SystemItemCreate]
     date: datetime = Field(alias='updateDate')
 

@@ -7,6 +7,12 @@ from fastapi.exceptions import RequestValidationError
 
 
 def parse_and_check_date(date: str) -> datetime:
+    """
+    function parse string to datetime in iso format
+    and also check dateformat
+    :param date: str
+    :return: datetime object
+    """
     try:
         date = parser.isoparse(date)
     except ValueError:
@@ -18,6 +24,12 @@ def parse_and_check_date(date: str) -> datetime:
 def check_date_is_valid(
         date: datetime, lower_date: Optional[datetime] = None
 ) -> None:
+    """
+    function compares date
+    :param date: datetime object
+    :param lower_date: datetime object
+    :return: None
+    """
     if lower_date is None:
         lower_date = datetime.now(tz.tzutc())
     if date > lower_date:

@@ -11,6 +11,13 @@ async def create_nested_response(
         session: AsyncSession,
         item: SystemItem,
 ) -> SystemItemFullRead:
+    """
+    coroutine that creates a response with nested
+    objects using a sequential chain of queries to the database
+    :param session: AsyncSession by SQLAlchemy
+    :param item: SystemItem object from db
+    :return: SystemItemFullRead pydantic schemas object
+    """
     children_default = {
         SystemItemType.FOLDER: [],
         SystemItemType.FILE: None
