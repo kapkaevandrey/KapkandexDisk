@@ -88,6 +88,8 @@ jobs:
       - name: Check Connect VPN
         run: echo ${{ steps.connect_vpn.outputs.STATUS }}
 
+
+
       - name: executing remote ssh commands to deploy app
         uses: appleboy/ssh-action@master
         with:
@@ -98,7 +100,7 @@ jobs:
           script: |
             sudo docker pull 15052016/disk:latest
             sudo docker-compose stop
-            sudo docker-compose rm backend
+            sudo docker-compose rm backend --
             touch ~/.env
             echo POSTGRES_DB=${{ secrets.POSTGRES_DB }} >> ~/.env
             echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> ~/.env
@@ -109,7 +111,7 @@ jobs:
             echo APP_TITLE=${{ secrets.APP_TITLE }} >> ~/.env
             echo APP_DESCRIPTION=${{ secrets.APP_DESCRIPTION }} >> ~/.env
             echo SECRET=${{ secrets.SECRET }} >> ~/.env
-
+            sudo docker-compose up -d
 
 
       - name: kill vpn after deploy
