@@ -5,7 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
 try:
-    from app.core.db import Base, get_async_session
+    from app.core.db import get_async_session
+    from app.core.base import Base
 except (NameError, ImportError):
     raise AssertionError(
         'Not found object Base or generator get_async_session',
@@ -17,6 +18,13 @@ except (NameError, ImportError):
     raise AssertionError(
         'Dont find application "app"`.',
     )
+
+
+pytest_plugins = [
+    'tests.fixtures.items',
+    'tests.fixtures.date',
+    'tests.fixtures.response_body'
+]
 
 
 SQLALCHEMY_DATABASE_URL = 'sqlite+aiosqlite:///./test.db'
@@ -46,19 +54,13 @@ async def init_db():
         await conn.run_sync(Base.metadata.drop_all)
 
 
-@pytest.fixture()
-def system_item_folder_valid():
-    return dict(
-        id='my_folder_id',
-        url=None, parent_id=None, type='FOLDER',
-        size=None
-    )
+@pytest.fixture
+def test_client():
+    with TestClient(app) as client:
+        yield client
 
 
-@pytest.fixture()
-def system_item_file_valid():
-    return dict(
-        id='my_file_id',
-        url='/file/', parent_id=None, type='FILE',
-        size=123
-    )
+@pytest.fixture
+async def session():
+    async with TestingSessionLocal() as session:
+        yield session

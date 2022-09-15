@@ -6,5 +6,6 @@ paths =
 max-complexity = 10
 exclude = 
    tests
-   alembic
+   alembic/versions/*.py
    .venv
+   venv
