@@ -56,5 +56,3 @@ def test_create_invalid_schemas_file_no_date(
             )
         except:
             pass
-
-

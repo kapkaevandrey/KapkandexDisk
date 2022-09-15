@@ -14,3 +14,8 @@ def update_date_str():
 @pytest.fixture()
 def second_update_date_str():
     return "2022-06-28T21:12:01Z"
+
+
+@pytest.fixture()
+def invalid_update_date_str():
+    return "2040-06-28T21:12:01Z"

@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime as dt
 from dateutil import tz, parser
 
 from typing import Optional
@@ -6,7 +6,7 @@ from typing import Optional
 from fastapi.exceptions import RequestValidationError
 
 
-def parse_and_check_date(date: str) -> datetime:
+def parse_and_check_date(date: str) -> dt.datetime:
     """
     function parse string to datetime in iso format
     and also check dateformat
@@ -22,7 +22,7 @@ def parse_and_check_date(date: str) -> datetime:
 
 
 def check_date_is_valid(
-        date: datetime, lower_date: Optional[datetime] = None
+        date: dt.datetime, lower_date: Optional[dt.datetime] = None
 ) -> None:
     """
     function compares date
@@ -32,7 +32,7 @@ def check_date_is_valid(
     """
     utc_date = date.astimezone(tz.tzutc())
     if lower_date is None:
-        lower_date = datetime.now(tz.tzutc())
+        lower_date = dt.datetime.now(tz.tzutc())
     if utc_date > lower_date:
         raise RequestValidationError(
             f'date in UTC cant be larger then '

@@ -1,5 +1,3 @@
-from pathlib import Path
-
 import pytest
 import pytest_asyncio
 from fastapi.testclient import TestClient
@@ -7,7 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
 try:
-    from app.core.db import Base, get_async_session
+    from app.core.db import get_async_session
+    from app.core.base import Base
 except (NameError, ImportError):
     raise AssertionError(
         'Not found object Base or generator get_async_session',
@@ -20,13 +19,15 @@ except (NameError, ImportError):
         'Dont find application "app"`.',
     )
 
-BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
-pytest_plugins = ('fixtures',)
+pytest_plugins = [
+    'tests.fixtures.items',
+    'tests.fixtures.date',
+    'tests.fixtures.response_body'
+]
 
 
-TEST_DB = BASE_DIR / 'test.db'
-SQLALCHEMY_DATABASE_URL = f'sqlite+aiosqlite:///{TEST_DB}'
+SQLALCHEMY_DATABASE_URL = 'sqlite+aiosqlite:///./test.db'
 
 
 engine = create_async_engine(
@@ -53,19 +54,13 @@ async def init_db():
         await conn.run_sync(Base.metadata.drop_all)
 
 
-@pytest.fixture()
-def system_item_folder_valid():
-    return dict(
-        id='my_folder_id',
-        url=None, parent_id=None, type='FOLDER',
-        size=None
-    )
+@pytest.fixture
+def test_client():
+    with TestClient(app) as client:
+        yield client
 
 
-@pytest.fixture()
-def system_item_file_valid():
-    return dict(
-        id='my_file_id',
-        url='/file/', parent_id=None, type='FILE',
-        size=123
-    )
+@pytest.fixture
+async def session():
+    async with TestingSessionLocal() as session:
+        yield session
