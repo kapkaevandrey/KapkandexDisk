@@ -28,6 +28,10 @@ async def import_folders_and_files(
         items_data: SystemItemListCreate,
         session: AsyncSession = Depends(get_async_session),
 ) -> None:
+    """
+    Importing file and folder type objects
+    :return: None
+    """
     check_items_package_unique_id(items_data.items)
     check_date_is_valid(items_data.date)
     await check_parent_id_in_package(items_data.items, session)
@@ -49,6 +53,14 @@ async def delete_folder_or_file(
         ),
         session: AsyncSession = Depends(get_async_session),
 ) -> None:
+    """
+    Get information about an object that includes information
+    about all child objects in depth
+    :param id: str
+    :param date: str
+    :param session: AsyncSession
+    :return: None
+    """
     date = parse_and_check_date(date)
     item = await try_get_object_by_attribute(
         system_item_crud,
@@ -75,6 +87,12 @@ async def get_item(
         id: str,
         session: AsyncSession = Depends(get_async_session),
 ) -> SystemItemFullRead:
+    """
+    deleting an object and then updating all related parent objects
+    :param id: str
+    :param session: AsyncSession
+    :return: SystemItemFullRead
+    """
     item = await try_get_object_by_attribute(
         system_item_crud,
         attr_name='id', attr_value=id, session=session

@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import List, Set
 
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -17,6 +17,13 @@ async def create_update_items_process(
         session: AsyncSession,
         items_data: SystemItemListCreate
 ):
+    """
+    a coroutine that processes the process of creating
+    new and updating existing objects in the database.
+    :param session:
+    :param items_data:
+    :return:
+    """
     date = items_data.date
     need_update_ids = set()
     updated_objects = []
@@ -54,7 +61,14 @@ async def create_update_items_process(
 def get_parent_item_id_need_update(
         item: SystemItemCreate,
         item_obj: SystemItem
-) -> set:
+) -> Set[str]:
+    """
+    a function that checks whether a parent has changed
+    and checks which parents should be updated
+    :param item: SystemItemCreate schemas object
+    :param item_obj: SystemItem object from db
+    :return: set with str or empty
+    """
     if item.parent_id == item_obj.parent_id:
         return set()
     return set(
@@ -69,7 +83,15 @@ async def update_single_parent_size(
         session: AsyncSession,
         commit=False
 ) -> List[SystemItem]:
-    """Update SystemType objects with type folder"""
+    """
+    the coroutine updates the values of all parent
+    objects moving from bottom to top relative to the passed object
+    :param parent_id: str
+    :param date: datetime
+    :param session: AsyncSession by SQLAlchemy
+    :param commit: need commit object in db or not
+    :return: List with SystemItem objects
+    """
     current_parent = await try_get_object_by_attribute(
         system_item_crud,
         attr_name='id', attr_value=parent_id,
@@ -87,6 +109,8 @@ async def update_single_parent_size(
             )
         )
         amount_size = result.first()[0]
+        if amount_size == current_parent.size:
+            break
         current_parent.size = (
             int(amount_size) if amount_size is not None else amount_size
         )

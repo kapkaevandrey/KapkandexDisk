@@ -25,7 +25,14 @@ async def get_items_change_statistic(
         ),
         session: AsyncSession = Depends(get_async_session)
 ) -> None:
-    return None
+    """
+    Getting a list of files that have been updated in the last 24
+    hours inclusive of the time passed in the request
+    :param date: str
+    :param session: AsyncSession
+    :return: None
+    """
+    ...
 
 
 @router.get(
@@ -53,4 +60,13 @@ async def get_history_item_change(
         ),
         session: AsyncSession = Depends(get_async_session)
 ) -> None:
-    return None
+    """
+    Getting the update history for an element
+    for a given half-interval
+    :param id: str
+    :param date_start: str
+    :param date_end: str
+    :param session: AsyncSession
+    :return: None
+    """
+    ...

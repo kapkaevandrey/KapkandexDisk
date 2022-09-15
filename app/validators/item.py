@@ -18,6 +18,14 @@ async def try_get_object_by_attribute(
         attr_value: Any,
         session: AsyncSession
 ) -> ModelType:
+    """
+    a coroutine trying to get an object from a database
+    :param crud_obj: BaseCRUD objects
+    :param attr_name: str
+    :param attr_value: Any valid value of object
+    :param session: AsyncSession by SQLAlchemy
+    :return: ModelType object
+    """
     result = await crud_obj.get_by_attributes(
         {attr_name: attr_value}, session
     )
@@ -35,6 +43,11 @@ async def try_get_object_by_attribute(
 def check_items_package_unique_id(
         items: List[SystemItemCreate],
 ) -> None:
+    """
+    a function that checks the uniqueness of the id in the package
+    :param items: List of SystemItemCreate
+    :return: None
+    """
     uniq_id_counter = defaultdict(int)
     for item in items:
         uniq_id_counter[item.id] += 1
@@ -47,6 +60,12 @@ def check_items_package_unique_id(
 def check_type_unchanged(
         item: SystemItemCreate, item_obj: SystemItem
 ) -> None:
+    """
+    function checking that the object type has not changed
+    :param item: SystemItemCreate schemas object
+    :param item_obj: SystemItem object from db
+    :return: None
+    """
     if item.type != item_obj.type:
         raise RequestValidationError('You cannot change type of Item')
 
@@ -54,6 +73,13 @@ def check_type_unchanged(
 async def check_parent_id_in_package(
         items: List[SystemItemCreate], session: AsyncSession
 ) -> None:
+    """
+    a coroutine that verifies the validity of
+    the parent object ids specified in the package
+    :param items:  List of SystemItemCreate objects
+    :param session: AsyncSession object by SQLAlchemy
+    :return: None
+    """
     parents_approved = set()
     for item in sorted(items, key=lambda x: x.type, reverse=True):
         if (
