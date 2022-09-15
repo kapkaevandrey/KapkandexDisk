@@ -8,7 +8,7 @@ from pydantic import (
 )
 
 from app.models import SystemItemType
-from app.core.constants import DATE_ISO_ZULU_FORMAT_TEMPLATE
+from app.core.constants import DATE_ISO_ZULU_FORMAT_TEMPLATE, FILE_URL_REGEX
 from app.utils.convertors import convert_datetime_to_utc
 
 
@@ -18,7 +18,7 @@ class SystemItemBase(BaseModel):
     an object of the file or folder type
     """
     id: str = Field()
-    url: Optional[str] = Field(max_length=255)
+    url: Optional[str] = Field(max_length=255, regex=FILE_URL_REGEX)
     parent_id: Optional[str] = Field(alias='parentId')
     type: SystemItemType
     size: Optional[PositiveInt]
