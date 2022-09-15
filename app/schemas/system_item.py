@@ -3,7 +3,6 @@ from datetime import datetime
 import re
 from typing import Optional, List
 
-import dateutil
 from pydantic import (
     BaseModel, PositiveInt, Field, validator, root_validator
 )

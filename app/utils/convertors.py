@@ -1,5 +1,5 @@
 import datetime as dt
-from dateutil import tz
+
 
 def convert_datetime_to_utc(
         date: dt.datetime,
