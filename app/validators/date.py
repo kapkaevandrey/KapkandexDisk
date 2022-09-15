@@ -30,9 +30,10 @@ def check_date_is_valid(
     :param lower_date: datetime object
     :return: None
     """
+    utc_date = date.astimezone(tz.tzutc())
     if lower_date is None:
         lower_date = datetime.now(tz.tzutc())
-    if date > lower_date:
+    if utc_date > lower_date:
         raise RequestValidationError(
             f'date in UTC cant be larger then '
             f'{lower_date}'

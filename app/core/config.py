@@ -4,7 +4,7 @@ from pydantic import BaseSettings
 class Settings(BaseSettings):
     app_title: str = 'KapkandexDisk'
     app_description: str = 'Service for remote file storage'
-    database_url: str = 'sqlite+aiosqlite:///./market.db'
+    database_url: str = 'sqlite+aiosqlite:///./disk.db'
     secret: str = 'where is my money lebowski'
 
     class Config:

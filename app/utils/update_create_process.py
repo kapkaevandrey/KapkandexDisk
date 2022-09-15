@@ -109,6 +109,8 @@ async def update_single_parent_size(
             )
         )
         amount_size = result.first()[0]
+        if amount_size == current_parent.size:
+            break
         current_parent.size = (
             int(amount_size) if amount_size is not None else amount_size
         )
