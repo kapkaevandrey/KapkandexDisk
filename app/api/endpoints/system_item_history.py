@@ -32,7 +32,7 @@ async def get_items_change_statistic(
     :param session: AsyncSession
     :return: None
     """
-    return None
+    ...
 
 
 @router.get(
@@ -69,4 +69,4 @@ async def get_history_item_change(
     :param session: AsyncSession
     :return: None
     """
-    return None
+    ...
