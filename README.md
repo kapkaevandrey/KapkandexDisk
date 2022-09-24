@@ -1,6 +1,4 @@
 # KapkandexDisk
-# KapkaYandex Market
-KapkaYandex_Products
 
 ![test and deploy](https://github.com/kapkaevandrey/KapkandexDisk/actions/workflows/disk_workflow.yml/badge.svg)
 
